@@ -1,9 +1,9 @@
  var config = {
-    apiKey: "AIzaSyDwkJ5tLnUssEbequ34dngUiO10XpOFfE0",
-    authDomain: "trackify-69fee.firebaseapp.com",
-    databaseURL: "https://trackify-69fee.firebaseio.com",
-    storageBucket: "trackify-69fee.appspot.com",
-    messagingSenderId: "1046243314292"
+   apiKey: "AIzaSyABtGUoDn3GvxXrfRA-bQKLrulCYCoHd_E",
+   authDomain: "littlebrother-67da5.firebaseapp.com",
+   databaseURL: "https://littlebrother-67da5.firebaseio.com",
+   storageBucket: "",
+   messagingSenderId: "194837337033"
   };
   firebase.initializeApp(config);
 
