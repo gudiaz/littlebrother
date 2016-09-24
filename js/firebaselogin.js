@@ -40,7 +40,7 @@ function login(){
       //appending to page
    $('#experiment').append("<h2>" + name + " reporting for duty!<h2>");
 
-   Response.redirect(www.google.com);
+   result.redirect(www.google.com);
  
      //blocked this out just to test above code
  // $('#experiment').append(JSON.stringify(result));
