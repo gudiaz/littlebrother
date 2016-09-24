@@ -32,7 +32,17 @@ function login(){
 
   // The signed-in user info.
   var user = result.user;
-
+  name = localStorage.getItem("resultName");
+   
+   database.ref().push({
+     name: name,
+     dateAdded: firebase.database.ServerValue.TIMESTAMP 
+   });
+       //appending to page
+   $('#experiment').append("<h2>" + name + " reporting for duty!<h2>");
+ 
+     //blocked this out just to test above code
+ // $('#experiment').append(JSON.stringify(result));
 
 }).catch(function(error) {
   // Handle Errors here.
