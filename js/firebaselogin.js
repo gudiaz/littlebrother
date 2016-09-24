@@ -20,9 +20,9 @@ function login(){
   firebase.auth().signInWithRedirect(provider);
 
   firebase.auth().getRedirectResult().then(function(result) {
-  alert(result);
+  // alert(result);
   
-  // localStorage.clear();
+  localStorage.clear();
   localStorage.setItem("result", JSON.stringify(result));
   localStorage.setItem("resultName", JSON.stringify(result.user.displayName));
   
@@ -39,7 +39,7 @@ function login(){
    
       //appending to page
    $('#experiment').append("<h2>" + name + " reporting for duty!<h2>");
-   var url = "http://www.google.com";
+   var url = "../project.html";
    window.location = url;
  
      //blocked this out just to test above code
@@ -67,7 +67,6 @@ function logout(){
 
 
 $('#login').on('click', function(){
-  localStorage.clear();
   login();
   logged=true;
 });
