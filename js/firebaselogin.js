@@ -7,6 +7,9 @@
   };
   firebase.initializeApp(config);
 
+// Variable to reference the database
+var database = firebase.database();
+
 var logged = false;
 var res = "";
 
@@ -14,9 +17,9 @@ var res = "";
  var provider = new firebase.auth.FacebookAuthProvider();
 
 function login(){
- firebase.auth().signInWithRedirect(provider);
+  firebase.auth().signInWithRedirect(provider);
 
- firebase.auth().getRedirectResult().then(function(result) {
+  firebase.auth().getRedirectResult().then(function(result) {
   console.log(result);
   
   localStorage.clear();
@@ -34,30 +37,26 @@ function login(){
   var user = result.user;
   name = localStorage.getItem("resultName");
    
-   database.ref().push({
-     name: name,
-     dateAdded: firebase.database.ServerValue.TIMESTAMP 
-   });
-       //appending to page
+      //appending to page
    $('#experiment').append("<h2>" + name + " reporting for duty!<h2>");
  
      //blocked this out just to test above code
  // $('#experiment').append(JSON.stringify(result));
 
 }).catch(function(error) {
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // The email of the user's account used.
-  var email = error.email;
-  // The firebase.auth.AuthCredential type that was used.
-  var credential = error.credential;
-  // ...
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
 });
 }
 
 function logout(){
-firebase.auth().signOut().then(function() {
+  firebase.auth().signOut().then(function() {
   // Sign-out successful.
 }, function(error) {
   // An error happened.
@@ -77,4 +76,4 @@ $('#logout').on('click', function(){
 });
   
   console.log(localStorage.getItem("result")); //worked
-    console.log(localStorage.getItem("resultName"));
+  console.log(localStorage.getItem("resultName"));
