@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>event.timeStamp demo</title>
+  <style>
+  div {
+    height: 100px;
+    width: 300px;
+    margin: 10px;
+    background-color: #ffd;
+    overflow: auto;
+  }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+</head>
+<body>
+ 
+<div>Click.</div>
+<div id="timestamp"></div>
+ 
+<script>
+var last, diff;
+var diffConvert;
+var minutes;
+var hours;
+var seconds;
+// time conversion between two click events in seconds
+$( "div" ).click(function( event ) {
+  if ( last ) {
+    diff = event.timeStamp - last;
+    diffConvert = (diff/1000);
+    $( "div" ).append( "time since last event: " + diffConvert + "<br>" );
+  } else {
+    $( "div" ).append( "Click again.<br>" );
+  }
+  last = event.timeStamp;
+
+  // function timeConvert(t){
+  //       var minutes = Math.floor(t/60);
+  //       var seconds = t - (minutes * 60);
+  //       if (seconds < 10){
+  //           seconds = "0" + seconds;
+  //       }
+  //       if (minutes === 0){
+  //           minutes = "00";
+  //       } else if (minutes < 10){
+  //           minutes = "0" + minutes;
+  //       }
+  //       return minutes + ":" + seconds;
+  //   }
+});
+console.log(moment());
+//to time stamp the date and time of punch in
+console.log(moment()._d);
+$('#timestamp').append(moment()._d);
+
+//to capture unix timestamp
+var stamp = moment().format('X');
+
+//time conversion from unix time to date
+var unixTimeStamp = (stamp);
+var timestampInMilliSeconds = unixTimeStamp*1000;
+var date = new Date(timestampInMilliSeconds);
+
+var day = (date.getDate() < 10 ? '0' : '') + date.getDate();
+var month = (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1);
+var year = date.getFullYear();
+
+var hours = ((date.getHours() % 12 || 12) < 10 ? '0' : '') + (date.getHours() % 12 || 12);
+var minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+var meridiem = (date.getHours() >= 12) ? 'pm' : 'am';
+
+var formattedDate = day + '-' + month + '-' + year + ' at ' + hours + ':' + minutes + ' ' + meridiem;
+
+alert(formattedDate);
+
+//time difference between two dates
+//2 different methods
+var diff = ( new Date("1970-1-1 " + end_time) - new Date("1970-1-1 " + start_time) ) / 1000 / 60 / 60; 
+
+var startTime=moment("12:16:59 am", "HH:mm:ss a");
+var endTime=moment("06:12:07 pm", "HH:mm:ss a");
+var duration = moment.duration(endTime.diff(startTime));
+var hours = parseInt(duration.asHours());
+var minutes = parseInt(duration.asMinutes())-hours*60;
+alert (hours + ' hour and '+ minutes+' minutes.'); 
+
+//time conversion from unix (seconds) time to date
+var date = new Date(stamp * 1000);
+var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+console.log(formattedDate);
+
+//time difference between unix(seconds) time
+// Create a new JavaScript Date object based on the timestamp
+// multiplied by 1000 so that the argument is in milliseconds, not seconds.
+var date = new Date(stamp*1000);
+// Hours part from the timestamp
+var hours = date.getHours();
+// Minutes part from the timestamp
+var minutes = "0" + date.getMinutes();
+// Seconds part from the timestamp
+var seconds = "0" + date.getSeconds();
+// Will display time in 10:30:23 format
+var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+console.log(formattedTime);
+
+//math conversions of seconds to minutes and hours
+var hours = Math.floor(sec / 3600);
+var min = Math.floor((sec - (hours*3600)) / 60);
+var seconds = Math.floor(sec % 60);
+
+</script>
+ 
+</body>
+</html>
