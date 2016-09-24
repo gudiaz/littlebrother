@@ -22,7 +22,7 @@ function login(){
   firebase.auth().getRedirectResult().then(function(result) {
   alert(result);
   
-  localStorage.clear();
+  // localStorage.clear();
   localStorage.setItem("result", JSON.stringify(result));
   localStorage.setItem("resultName", JSON.stringify(result.user.displayName));
   
@@ -67,6 +67,7 @@ function logout(){
 
 
 $('#login').on('click', function(){
+  localStorage.clear();
   login();
   logged=true;
 });
