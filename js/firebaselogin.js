@@ -39,8 +39,8 @@ function login(){
    
       //appending to page
    $('#experiment').append("<h2>" + name + " reporting for duty!<h2>");
-
-   result.redirect(www.google.com);
+   var url = "http://www.google.com";
+   window.location = url;
  
      //blocked this out just to test above code
  // $('#experiment').append(JSON.stringify(result));
