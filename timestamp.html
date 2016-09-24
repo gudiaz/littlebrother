@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>event.timeStamp demo</title>
+  <style>
+  div {
+    height: 100px;
+    width: 300px;
+    margin: 10px;
+    background-color: #ffd;
+    overflow: auto;
+  }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+</head>
+<body>
+ 
+<div>Click.</div>
+<div id="timestamp"></div>
+ 
+<script>
+var last, diff;
+var diffConvert;
+var minutes;
+var hours;
+var seconds;
+// time conversion between two click events in seconds
+$( "div" ).click(function( event ) {
+  if ( last ) {
+    diff = event.timeStamp - last;
+    diffConvert = (diff/1000);
+    $( "div" ).append( "time since last event: " + diffConvert + "<br>" );
+  } else {
+    $( "div" ).append( "Click again.<br>" );
+  }
+  last = event.timeStamp;
+
+  // function timeConvert(t){
+  //       var minutes = Math.floor(t/60);
+  //       var seconds = t - (minutes * 60);
+  //       if (seconds < 10){
+  //           seconds = "0" + seconds;
+  //       }
+  //       if (minutes === 0){
+  //           minutes = "00";
+  //       } else if (minutes < 10){
+  //           minutes = "0" + minutes;
+  //       }
+  //       return minutes + ":" + seconds;
+  //   }
+});
+console.log(moment());
+//to time stamp the date and time of punch in
+console.log(moment()._d);
+$('#timestamp').append(moment()._d);
+
+//time conversion from unix time to date
+var unixTimeStamp = (firebase.database.ServerValue.TIMESTAMP-- from firebase);
+var timestampInMilliSeconds = unixTimeStamp*1000;
+var date = new Date(timestampInMilliSeconds);
+
+var day = (date.getDate() < 10 ? '0' : '') + date.getDate();
+var month = (date.getMonth() < 9 ? '0' : '') + (date.getMonth() + 1);
+var year = date.getFullYear();
+
+var hours = ((date.getHours() % 12 || 12) < 10 ? '0' : '') + (date.getHours() % 12 || 12);
+var minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+var meridiem = (date.getHours() >= 12) ? 'pm' : 'am';
+
+var formattedDate = day + '-' + month + '-' + year + ' at ' + hours + ':' + minutes + ' ' + meridiem;
+
+alert(formattedDate);
+
+
+</script>
+ 
+</body>
+</html>
