@@ -73,6 +73,16 @@ var formattedDate = day + '-' + month + '-' + year + ' at ' + hours + ':' + minu
 
 alert(formattedDate);
 
+//time difference between two dates
+//2 different methods
+var diff = ( new Date("1970-1-1 " + end_time) - new Date("1970-1-1 " + start_time) ) / 1000 / 60 / 60; 
+
+var startTime=moment("12:16:59 am", "HH:mm:ss a");
+var endTime=moment("06:12:07 pm", "HH:mm:ss a");
+var duration = moment.duration(endTime.diff(startTime));
+var hours = parseInt(duration.asHours());
+var minutes = parseInt(duration.asMinutes())-hours*60;
+alert (hours + ' hour and '+ minutes+' minutes.'); 
 
 </script>
  
