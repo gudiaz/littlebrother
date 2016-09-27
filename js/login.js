@@ -26,11 +26,12 @@ firebase.auth().getRedirectResult().then(function(result) {
   // Save the User Name to Firebase
   firebase.database().ref('user').push({
     name: result.user.displayName
-  });
+});
 
   //Retrieve the User Name from Firebase
-  firebase.database().ref('user').on("child_added", function(snapshot){
+firebase.database().ref('user').on("child_added", function(snapshot){
     console.log(snapshot.val().name);
+    window.location = "../timer.html";
 })
     //console.log(result);
     //console.log(result.user.displayName);
@@ -38,12 +39,10 @@ firebase.auth().getRedirectResult().then(function(result) {
 
 $('#login').on('click', function(){
   login();
-  var url = "../timer.html";
-  window.location = url;
 });
 
 $('#logout').on('click', function(){
-  logout();
+  
   var url = "../index.html";
   window.location = url;
 });
