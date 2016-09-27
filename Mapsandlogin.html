@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Maps&Login</title>
+<style>
+    html, body {
+  height: 100%;
+  width:100%;
+  margin: 0;
+  padding: 0;
+}
+#map {
+  height: 300px;
+   width:400px;
+}
+
+#map2 {
+    height: 300px;
+    width: 400px;
+}
+
+</style>
+    <!-- Added a link to Bootstrap Online-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    
+    <!-- Added link to the jQuery Library -->
+    <script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
+</head>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-0 col-md-4 col-md-offset-0">
+            <h1>User</h1>
+            <div id="map"></div>
+        </div>
+        <div class="col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-2">
+            <h1>Administrator</h1>
+            <div id="map2"></div>
+        </div>
+    </div>
+</div>
+
+<button id="login">Log In</button>
+<button id="submit">Check In</button>
+
+<body>
+    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+    <script type="text/javascript">
+    
+    //INITIALIZE FIREBASE
+    var config = {
+        apiKey: "AIzaSyDwkJ5tLnUssEbequ34dngUiO10XpOFfE0",
+        authDomain: "trackify-69fee.firebaseapp.com",
+        databaseURL: "https://trackify-69fee.firebaseio.com",
+        storageBucket: "trackify-69fee.appspot.com",
+        messagingSenderId: "1046243314292"
+    };
+    firebase.initializeApp(config);
+
+        //Allows the google maps api to set multiple callbacks (multiple maps).
+    function initialize(){
+        initMap();
+        initMapTwo();
+    }
+
+/*
+oooo                        o8o              
+`888                        `"'              
+ 888   .ooooo.   .oooooooo oooo  ooo. .oo.   
+ 888  d88' `88b 888' `88b  `888  `888P"Y88b  
+ 888  888   888 888   888   888   888   888  
+ 888  888   888 `88bod8P'   888   888   888  
+o888o `Y8bod8P' `8oooooo.  o888o o888o o888o 
+                d"     YD                    
+                "Y88888P'                    
+*/                                             
+
+    // Create an instance of the Facebook provider object:
+var provider = new firebase.auth.FacebookAuthProvider();
+
+//Authenticate with Firebase using the Facebook provider object.
+function login(){
+
+//To sign in by redirecting to the sign-in page, call signInWithRedirect:
+firebase.auth().signInWithRedirect(provider);
+}
+
+// The recommended way to get the current user is by setting an observer on the Auth object. By using an observer, you ensure that the Auth object isn't in an intermediate state—such as initialization—when you get the current user. 
+
+// When you use signInWithRedirect, the onAuthStateChanged observer waits until getRedirectResult resolves before triggering.
+
+  firebase.auth().getRedirectResult().then(function(result) {
+    
+    // Save the User Name to Firebase
+    firebase.database().ref('user').push({
+      name: result.user.displayName
+    });
+
+    //Retrieve the User Name from Firebase
+    firebase.database().ref('user').on("child_added", function(snapshot){
+      console.log(snapshot.val().name);
+    })
+    //console.log(result);
+    //console.log(result.user.displayName);
+});
+
+
+$('#login').on('click', function(){
+  login();
+});
+
+/*    
+                                         .o  
+                                       o888  
+ooo. .oo.  .oo.    .oooo.   oo.ooooo.   888  
+`888P"Y88bP"Y88b  `P  )88b   888' `88b  888  
+ 888   888   888   .oP"888   888   888  888  
+ 888   888   888  d8(  888   888   888  888  
+o888o o888o o888o `Y888""8o  888bod8P' o888o 
+                             888             
+                            o888o            
+*/                                            
+    //MAP 1
+    // All map elements should be INSIDE initMap().
+    function initMap() {
+
+        //Creating the map and centering it at a random location.
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 40.5757706, lng: -74.35883439999999},
+            zoom: 10
+            });
+
+        // Getting User's Current Location.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                //Creating an InfoWindow, set to the user's current location.
+                var infoWindow = new google.maps.InfoWindow({
+                    map: map});
+
+                infoWindow.setPosition(pos);
+                infoWindow.setContent('You are here.');
+                map.setCenter(pos);
+
+                // console.log(pos.lat); //User's position lat
+                // console.log(pos.lng); //User's position lng
+
+                //Creating Circles
+                //Circle 1
+                var circle = new google.maps.Circle({
+                    map: map,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.5757706,
+                        lng: -74.35883439999999
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 2
+                var circle = new google.maps.Circle({
+                    map: map,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.497557799999996,
+                        lng: -74.4473483
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 3
+                var circle = new google.maps.Circle({
+                    map: map,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.534274,
+                        lng: -74.520258
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 4
+                var circle = new google.maps.Circle({
+                    map: map,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.585943,
+                        lng: -74.619274
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 5
+                var circle = new google.maps.Circle({
+                    map: map,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.628732,
+                        lng: -74.410394
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 6
+                var circle = new google.maps.Circle({
+                    map: map,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.474823,
+                        lng: -74.539483
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+
+                //When clicking the Check-in Button.
+                $('#submit').on('click', function() {
+
+                infoWindow = new google.maps.InfoWindow({map: map});
+                infoWindow.setPosition(pos);
+                infoWindow.setContent('You are checked in.');
+                map.setCenter(pos);
+                // console.log(pos.lat); //User's position lat
+                // console.log(pos.lng); //User's position lng
+                    
+                    //Send User's location data to Firebase
+                    firebase.database().ref('userlocation').push({
+                        positionLat: pos.lat,
+                        positionLng: pos.lng
+                    })
+                }); //Close click function
+
+
+                // All this text below is to catch errors, but doesn't do anything important. 
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());});
+        } else {// Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());}
+    }
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+
+
+    } // END initMap() function
+
+/*
+                                         .oooo.   
+                                       .dP""Y88b  
+ooo. .oo.  .oo.    .oooo.   oo.ooooo.        ]8P' 
+`888P"Y88bP"Y88b  `P  )88b   888' `88b     .d8P'  
+ 888   888   888   .oP"888   888   888   .dP'     
+ 888   888   888  d8(  888   888   888 .oP     .o 
+o888o o888o o888o `Y888""8o  888bod8P' 8888888888 
+                             888                  
+                            o888o                 
+*/                                                  
+
+
+// The initMap() function creates everything that is displayed in the map. 
+function initMapTwo() {
+  
+  // This creates a new Map. No relationship to the user's location.
+  var map2 = new google.maps.Map(document.getElementById('map2'), {
+    center: {lat: 40.5757706, lng: -74.35883439999999},
+    zoom: 10
+  }); //Close new map .
+                
+                //Creating Circles
+                //Circle 1
+                var circle = new google.maps.Circle({
+                    map: map2,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.5757706,
+                        lng: -74.35883439999999
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 2
+                var circle = new google.maps.Circle({
+                    map: map2,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.497557799999996,
+                        lng: -74.4473483
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 3
+                var circle = new google.maps.Circle({
+                    map: map2,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.534274,
+                        lng: -74.520258
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 4
+                var circle = new google.maps.Circle({
+                    map: map2,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.585943,
+                        lng: -74.619274
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 5
+                var circle = new google.maps.Circle({
+                    map: map2,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.628732,
+                        lng: -74.410394
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 6
+                var circle = new google.maps.Circle({
+                    map: map2,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.474823,
+                        lng: -74.539483
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                }); // End Circles
+                
+  //var geocoder = Adds a new geocoder element into the geocodeLatLng() function below, allowing the map to find a street address using Latitude and Longitude.
+  var geocoder = new google.maps.Geocoder;
+  
+  //var infowindow = Adds a new InfoWindow into the geocodeLatLng() function below, displaying the user's location in an info box on the map.
+  var infowindow = new google.maps.InfoWindow;
+
+//Run the geocodeLatLng function()
+    //The geocodeLatLng function() does a Geocode Reverse Lookup. (Taking the Latitude and Longitude, getting back a street address, and marking it on the map.)
+    geocodeLatLng(geocoder, map2, infowindow);
+
+} // End InitMap2() function 
+
+
+
+// Once a user clicks check-in, the geocodeLatLng() function below gets the user's location from Firebase, in Latitude and Longitude, converts it to a street address, and prints the location and marker to the map.
+function geocodeLatLng(geocoder, map, infowindow) {
+  
+  //This gets the Lat/Lng input value from Firebase.
+  firebase.database().ref('userlocation').on("child_added", function(snapshot) {
+  //console.log("Snapshot from Firebase, Latitude: " + snapshot.val().positionLat);
+  //console.log("Snapshot from Firebase, Longitude: " + snapshot.val().positionLng);
+  
+  // Taking the snapshots of the user's Latitude and Longitude coordinates that were saved in Firebase when the user clicked check-in.
+  var input = (snapshot.val().positionLat + "," + snapshot.val().positionLng)
+  
+  // Re-arranging the user's Latitude and Longitude into a form that the program can read.
+  var latlngStr = input.split(',', 2);
+  var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+  geocoder.geocode({'location': latlng}, function(results, status) {
+    
+    firebase.database().ref('address').push({
+    address: results[0].formatted_address
+    });
+    // Displaying the location on a map.
+    if (status === 'OK') {
+      if (results[0]) {
+        map.setZoom(10);
+        
+        // Creating a marker at the user's location
+        var marker = new google.maps.Marker({
+          position: latlng,
+          map: map
+        });
+
+        firebase.database().ref('user').on("child_added", function(snapshot){
+        // Adding the user's address to the info box above the marker
+        infowindow.setContent(snapshot.val().name + "<br>" + results[0].formatted_address);
+        infowindow.open(map, marker);
+        })
+        // Text that catches errors.
+      } else {
+        window.alert('No results found');
+      }
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
+    }
+  });
+  });
+
+} // End geocodeLatLng() function.
+
+    </script>
+    <!-- Link to Google Maps with my API Key -->
+
+    <!-- initMap() callback -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDA89eTHhEgKKrfeKLVVnMoHyE3u5zCZ7Y&callback=initialize">
+    </script>
+    
+    <!-- <script type="text/javascript" src="script.js"></script> -->
+</body>
+
+</html>
