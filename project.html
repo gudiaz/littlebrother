@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Front Page</title>
+  <title>Front Page</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <link rel="stylesheet" type="text/css" href="project.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+   <script src="flipclock.js"></script>        
 
 </head>
 
@@ -14,18 +17,7 @@
 
   
 
-<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
- <div class="container">
-  <div class="row">
-   <div class="col-sm-4">
-    </div>
-   <div class="col-sm-4">
-       <a href="#" class="btn btn-lg btn-info" id="clockIn">Clock In</a>
-       <a href="#" class="btn btn-lg btn-info" id="clockOut">Clock Out</a>
-      </nav>
-    </div>
-   <div class="col-sm-4">
-     </div>
+
 <header>
       <div class="container">
     <div class="row">
@@ -33,7 +25,7 @@
 
        </div>
      <div class="col-sm-4">
-
+<button class="clockIn">Clock In</button>                                 <button class="clockOut">Clock Out</button>
        </div>
      <div class="col-sm-4">
 
@@ -42,29 +34,65 @@
     </div>
     
     <div class="row">
-   <div class="col-sm-4">
+   <div class="col-sm-2">
 
-   <div id="currentTime">
+   <!-- <div id="currentTime">
      <img src="http://www.takecontrolbooks.com/resources/0168/site/images/4-timers.png" style="width: 335px;
     height: 255px;">
-   </div>
+   </div> -->
 
    </div>
-   <div class="col-sm-4">
-<h1>Check in, On Your Own Terms</h1>
-  </div>
+   <div class="col-sm-8">
+
+    <div class="clock" style="margin:2em;"></div>
+    <div class="message"></div>
+    <div id="timestamp1"></div>
+    <div id="timestamp2"></div>
+    <div class="row">
+        <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Time stamps In</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table" id="punchin">
+                        <thead>
+                            <tr>
+                                <th>Date and Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+     <div class="row">
+        <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Time stamps Out</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table" id="punchout">
+                        <thead>
+                            <tr>
+                                <th>Date and Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+
+    </div>
+   </div>
+  <div id="total"></div> 
+
+   <div class="col-sm-2">
+
+
  </div>
-   
-
-   <div class="col-sm-4">
-
-<div id="timer"></div>
-
-<img src="http://financialpostbusiness.files.wordpress.com/2012/12/navigation.png" style="    position: relative;
-    width: 338px;
-    height: 316px;
-    left: 12pc;
-    top: -30pc;">
     </div>
    </div>
 
@@ -103,8 +131,48 @@
 </div>
 </div>
 </header>
+<script type="text/javascript">
+        var clock;
+        
+        $(document).ready(function() {
+            
+            clock = $('.clock').FlipClock({
+                clockFace: 'HourlyCounter',
+                autoStart: false,
+                callbacks: {
+                    start: function() {
+                        $('.message').html('The clock has started!');
+                    },
+                    stop: function() {
+                        $('.message').html('The clock has stopped!');
+                    }
+                }
+            });
+            $('.clockIn').click(function(e) {
+                clock.start();
+                var stamp1 = (moment()._d);
+                $('#punchin >tbody').append("<tr><td>" + stamp1 + "</td></tr>");
+                $('#total').hide();
+            });
+            $('.clockOut').click(function(e) {
+                clock.stop();
+                var stamp2 = (moment()._d);
+                $('#punchout >tbody').append("<tr><td>" + stamp2 + "</td></tr>");
+                var totalSeconds = clock.getTime().time;
+                hours = Math.floor(totalSeconds / 3600);
+                totalSeconds %= 3600;
+                minutes = Math.floor(totalSeconds / 60);
+                seconds = totalSeconds % 60;
+                var formattedTime = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+                // var formattedTime = hours + ':' + minutes + ':' + seconds;
+                console.log(formattedTime);
+                $('#total').show().text(formattedTime);
+            });
+        });
+    </script>
     
    
 
 </body>
 </html>
+
