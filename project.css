@@ -1,14 +1,14 @@
 
 
 #mainNav {
-      width: 485px;
+      width: 700px;
 }
 
 
 
 header {
     position: relative;
-    width: 485px;
+    width: 700px;
     height: 1024px;
     min-height:auto;
     background-size:cover;
@@ -42,7 +42,7 @@ h1 {
   border: none;
   border-radius: 8px;
   color: #fff;
-  right: 17pc;
+  right: -7pc;
 }
 
 .clockOut {
@@ -51,7 +51,7 @@ h1 {
   border: none;
   border-radius: 8px;
   color: #fff;
-  right: 17pc;
+  right: -7pc;
 }
 
 
@@ -487,7 +487,7 @@ h1 {
 .clock.flip-clock-wrapper {
     margin: 2em;
     position: relative;
-    left: -14pc;
+    left: -1pc;
     top: 1pc;
 }
 
@@ -495,7 +495,7 @@ h1 {
     position: relative;
     background-color: transparent;
     width: 279px;
-    left: -11pc;
+    left: 4pc;
 }
 
 .panel-success>.panel-heading {
