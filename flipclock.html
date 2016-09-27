@@ -75,6 +75,11 @@
                 var stamp1 = (moment()._d);
                 $('#punchin >tbody').append("<tr><td>" + stamp1 + "</td></tr>");
                 $('#total').hide();
+                //database
+                // database.ref('user').push({
+                //     name: result.user.displayName,
+                //     dateAdded: firebase.database.ServerValue.TIMESTAMP 
+                // });
             });
             $('.clockOut').click(function(e) {
                 clock.stop();
@@ -88,7 +93,12 @@
                 var formattedTime = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
                 // var formattedTime = hours + ':' + minutes + ':' + seconds;
                 console.log(formattedTime);
-                $('#total').show().text(formattedTime);
+                $('#total').show().text("total time: " + hours + " hours " + minutes + " minutes " + seconds + " seconds");
+                // database.ref('user').push({
+                //     name: result.user.displayName,
+                //     dateAdded: firebase.database.ServerValue.TIMESTAMP,
+                //     totalTime: formattedTime 
+                // });
             });
 
         });
