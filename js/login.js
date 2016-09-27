@@ -38,4 +38,12 @@ firebase.auth().getRedirectResult().then(function(result) {
 
 $('#login').on('click', function(){
   login();
+  var url = "../timer.html";
+  window.location = url;
+});
+
+$('#logout').on('click', function(){
+  logout();
+  var url = "../index.html";
+  window.location = url;
 });
