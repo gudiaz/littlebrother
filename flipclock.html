@@ -1,5 +1,6 @@
 <html>
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <link rel="stylesheet" href="flipclock.css">
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -75,6 +76,11 @@
                 var stamp1 = (moment()._d);
                 $('#punchin >tbody').append("<tr><td>" + stamp1 + "</td></tr>");
                 $('#total').hide();
+                //database
+                // database.ref('user').push({
+                //     name: result.user.displayName,
+                //     dateAdded: firebase.database.ServerValue.TIMESTAMP 
+                // });
             });
             $('.clockOut').click(function(e) {
                 clock.stop();
@@ -88,7 +94,12 @@
                 var formattedTime = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
                 // var formattedTime = hours + ':' + minutes + ':' + seconds;
                 console.log(formattedTime);
-                $('#total').show().text(formattedTime);
+                $('#total').show().text("total time: " + hours + " hours " + minutes + " minutes " + seconds + " seconds");
+                // database.ref('user').push({
+                //     name: result.user.displayName,
+                //     dateAdded: firebase.database.ServerValue.TIMESTAMP,
+                //     totalTime: formattedTime 
+                // });
             });
 
         });
