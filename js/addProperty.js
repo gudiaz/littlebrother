@@ -13,22 +13,24 @@
 var database = firebase.database();
 
 // Initial value
-var user = {
-  userID: "",
-  firstName: "",
-  lastName: "",
-  title: "",
-  ssn: "",
-  dob: "",
+var property = {
+  propertyID: "",
+  name: "",
   address: "",
   city: "",
   state: "",
   zip: "",
-  phone: "",
-  startDate: "",
-  hourlyWage: "",
-  taxExempt: false,
+  contactName: "",
+  contactPhone: "",
+  managerID: "",
   dateAdded: firebase.database.ServerValue.TIMESTAMP
+}
+
+var timesheet = {
+  empID: "",
+  propertyID: "",
+  clockinDate: firebase.database.ServerValue.TIMESTAMP,
+  clockoutDate: ""
 }
 
 
