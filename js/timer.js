@@ -7,12 +7,12 @@ $(document).ready(function() {
       clockFace: 'HourlyCounter',
       autoStart: false,
       callbacks: {
-          start: function() {
-              $('.message').html('The clock has started!');
-          },
-          stop: function() {
-              $('.message').html('The clock has stopped!');
-          }
+        start: function() {
+          $('.message').html('The clock has started!');
+        },
+        stop: function() {
+          $('.message').html('The clock has stopped!');
+        }
       }
     });
 
@@ -28,6 +28,8 @@ $(document).ready(function() {
       var stamp2 = (moment()._d);
       $('#punchout >tbody').append("<tr><td>" + stamp2 + "</td></tr>");
       var totalSeconds = clock.getTime().time;
+      console.log("total seconds: " + totalSeconds);
+      
       hours = Math.floor(totalSeconds / 3600);
       totalSeconds %= 3600;
       minutes = Math.floor(totalSeconds / 60);

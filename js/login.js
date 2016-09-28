@@ -12,19 +12,25 @@ o888o `Y8bod8P' `8oooooo.  o888o o888o o888o
 
 // Create an instance of the Facebook provider object:
 var provider = new firebase.auth.FacebookAuthProvider();
+var user;
+
 provider.addScope('email');
 
 //Authenticate with Firebase using the Facebook provider object.
 function login(){
   //To sign in by redirecting to the sign-in page, call signInWithRedirect:
   //firebase.auth().signInWithRedirect(provider);
+
+  // Sign in using a popup
   firebase.auth().signInWithPopup(provider).then(function(result) {
     // This gives you a Facebook Access Token. You can use it to access the Facebook API.
     var token = result.credential.accessToken;
-    // The signed-in user info.
-    var user = result.user;
+
+    // The signed-in user info
+    user = result.user;
     console.log(user);
-    //redirect to the timer page
+
+    // Redirect to the timer page
     window.location = "../timer.html";
   }).catch(function(error) {
     // Handle Errors here.
@@ -41,6 +47,8 @@ function login(){
 function logout(){
   firebase.auth().signOut().then(function() {
   // Sign-out successful
+  // Redirect to the home page
+  window.location = "../index.html";
   }, function(error) {
     console.log(error.code);
   });
@@ -72,6 +80,4 @@ $('#login').on('click', function(){
 
 $('#logout').on('click', function(){
   logout();
-  var url = "../index.html";
-  window.location = url;
 });
