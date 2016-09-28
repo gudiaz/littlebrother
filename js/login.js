@@ -12,6 +12,7 @@ o888o `Y8bod8P' `8oooooo.  o888o o888o o888o
 
 // Create an instance of the Facebook provider object:
 var provider = new firebase.auth.FacebookAuthProvider();
+provider.addScope('email');
 
 //Authenticate with Firebase using the Facebook provider object.
 function login(){
@@ -22,7 +23,8 @@ function login(){
     var token = result.credential.accessToken;
     // The signed-in user info.
     var user = result.user;
-    // ...
+    console.log(user);
+
   }).catch(function(error) {
     // Handle Errors here.
     var errorCode = error.code;
