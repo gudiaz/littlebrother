@@ -24,7 +24,8 @@ function login(){
     // The signed-in user info.
     var user = result.user;
     console.log(user);
-
+    //redirect to the timer page
+    window.location = "../timer.html";
   }).catch(function(error) {
     // Handle Errors here.
     var errorCode = error.code;
@@ -48,22 +49,22 @@ function logout(){
 // The recommended way to get the current user is by setting an observer on the Auth object. By using an observer, you ensure that the Auth object isn't in an intermediate state—such as initialization—when you get the current user. 
 // When you use signInWithRedirect, the onAuthStateChanged observer waits until getRedirectResult resolves before triggering.
 
-firebase.auth().getRedirectResult().then(function(result) {    
-  // Save the User Name to Firebase
-  firebase.database().ref('user').push({
-    name: result.user.displayName
-});
+// firebase.auth().getRedirectResult().then(function(result) {    
+//   // Save the User Name to Firebase
+//   firebase.database().ref('user').push({
+//     name: result.user.displayName
+// });
 
-  //Retrieve the User Name from Firebase
-firebase.database().ref('user').on("child_added", function(snapshot){
-    console.log(snapshot.val().name);
+//   //Retrieve the User Name from Firebase
+// firebase.database().ref('user').on("child_added", function(snapshot){
+//     console.log(snapshot.val().name);
 
-    //redirect to the timer page
-    window.location = "../timer.html";
-})
-    //console.log(result);
-    //console.log(result.user.displayName);
-});
+//     //redirect to the timer page
+//     window.location = "../timer.html";
+// })
+//     //console.log(result);
+//     //console.log(result.user.displayName);
+// });
 
 $('#login').on('click', function(){
   login();
