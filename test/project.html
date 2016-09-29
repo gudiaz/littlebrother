@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Front Page</title>
+  
+  <style>
+    html, body {
+  height: 100%;
+  width:100%;
+  margin: 0;
+  padding: 0;
+}
+#map {
+  height: 300px;
+   width:400px;
+}
+
+#map2 {
+    height: 300px;
+    width: 400px;
+}
+
+</style>
+  
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- <link rel="stylesheet" type="text/css" href="project.css"> -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+
+ <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+  <!-- <script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script> -->
+
+<!--  <script src="js/jquery.scrollorama.js"></script> -->
+  
+   <script src="flipclock.js"></script>  
+ <!--   <script src="maps.js"></script>  -->     
+
+</head>
+
+<body>
+
+  
+
+
+<header>
+      <div class="container">
+    <div class="row">
+     <div class="col-sm-4">
+
+       </div>
+     <div class="col-sm-4">
+<button class="clockIn">Clock In</button>                                 <button class="clockOut">Clock Out</button>
+       </div>
+     <div class="col-sm-4">
+
+       </div>
+
+    </div>
+    
+    <div class="row">
+   <div class="col-sm-2">
+
+   <!-- <div id="currentTime">
+     <img src="http://www.takecontrolbooks.com/resources/0168/site/images/4-timers.png" style="width: 335px;
+    height: 255px;">
+   </div> -->
+
+   </div>
+   <div class="col-sm-8">
+
+    <div class="clock" style="margin:2em;"></div>
+    <div class="message"></div>
+    <div id="timestamp1"></div>
+    <div id="timestamp2"></div>
+    <div class="row">
+        <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Time stamps In</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table" id="punchin">
+                        <thead>
+                            <tr>
+                                <th>Date and Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+     <div class="row">
+        <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Time stamps Out</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table" id="punchout">
+                        <thead>
+                            <tr>
+                                <th>Date and Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+
+    </div>
+   </div>
+  <div id="total"></div> 
+
+   <div class="col-sm-2">
+
+
+ </div>
+    </div>
+   </div>
+
+
+   <div class="row">
+    <div class="col-sm-4">
+
+    </div>
+    <div class="col-sm-4">
+
+  <div id="map2"></div>
+<!-- <a href="#" class="btn btn-lg btn-default" id="logout">Logout</a> -->
+
+    </div>
+    <div class="col-sm-4">
+
+    </div>
+ </div>
+
+
+<div class="row">
+ <div class="col-sm-4">
+
+ </div>
+ <div class="col-sm-4">
+
+ </div>
+ <div class="col-sm-4">
+      
+      
+    
+
+ </div>
+
+</div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-0 col-md-4 col-md-offset-0">
+            <h1>User</h1>
+            <div class="" id="map"></div>
+        </div>
+        
+
+        <div class="col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-2">
+            <h1>Administrator</h1>
+            <div id="map2"></div>
+        </div>
+    </div>
+</div>
+
+
+
+<button id="login">Log In</button>
+
+<button id="submit">Check In</button>
+
+</header>
+<script type="text/javascript">
+        
+        var clock;
+
+  var config = {
+        apiKey: "AIzaSyDwkJ5tLnUssEbequ34dngUiO10XpOFfE0",
+        authDomain: "trackify-69fee.firebaseapp.com",
+        databaseURL: "https://trackify-69fee.firebaseio.com",
+        storageBucket: "trackify-69fee.appspot.com",
+        messagingSenderId: "1046243314292"
+    };
+    firebase.initializeApp(config);
+
+// Variable to reference the database
+var database = firebase.database();
+
+
+        function initialize(){
+        initMap();
+        initMapTwo();
+    }
+
+/*
+oooo                        o8o              
+`888                        `"'              
+ 888   .ooooo.   .oooooooo oooo  ooo. .oo.   
+ 888  d88' `88b 888' `88b  `888  `888P"Y88b  
+ 888  888   888 888   888   888   888   888  
+ 888  888   888 `88bod8P'   888   888   888  
+o888o `Y8bod8P' `8oooooo.  o888o o888o o888o 
+                d"     YD                    
+                "Y88888P'                    
+*/                                             
+
+var provider = new firebase.auth.FacebookAuthProvider();
+
+function login(){
+
+firebase.auth().signInWithRedirect(provider);
+}
+
+  firebase.auth().getRedirectResult().then(function(result) {
+    
+    firebase.database().ref('user').push({
+      name: result.user.displayName
+    });
+
+    firebase.database().ref('user').on("child_added", function(snapshot){
+      console.log(snapshot.val().name);
+    })
+    var url = "../project.html";
+    window.location = url;
+});
+
+
+$('#login').on('click', function(){
+  login();
+});
+
+/*    
+                                         .o  
+                                       o888  
+ooo. .oo.  .oo.    .oooo.   oo.ooooo.   888  
+`888P"Y88bP"Y88b  `P  )88b   888' `88b  888  
+ 888   888   888   .oP"888   888   888  888  
+ 888   888   888  d8(  888   888   888  888  
+o888o o888o o888o `Y888""8o  888bod8P' o888o 
+                             888             
+                            o888o            
+*/                                            
+
+    function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 40.5757706, lng: -74.35883439999999},
+            zoom: 10
+            });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                var infoWindow = new google.maps.InfoWindow({
+                    map: map});
+
+                infoWindow.setPosition(pos);
+                infoWindow.setContent('You are here.');
+                map.setCenter(pos);
+
+                var circle = new google.maps.Circle({
+                    map: map,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.5757706,
+                        lng: -74.35883439999999
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 2
+                var circle = new google.maps.Circle({
+                    map: map,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.497557799999996,
+                        lng: -74.4473483
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 3
+                var circle = new google.maps.Circle({
+                    map: map,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.534274,
+                        lng: -74.520258
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 4
+                var circle = new google.maps.Circle({
+                    map: map,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.585943,
+                        lng: -74.619274
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 5
+                var circle = new google.maps.Circle({
+                    map: map,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.628732,
+                        lng: -74.410394
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 6
+                var circle = new google.maps.Circle({
+                    map: map,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.474823,
+                        lng: -74.539483
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+
+                $('#submit').on('click', function() {
+
+                infoWindow = new google.maps.InfoWindow({map: map});
+                infoWindow.setPosition(pos);
+                infoWindow.setContent('You are checked in.');
+                map.setCenter(pos);
+
+                    firebase.database().ref('userlocation').push({
+                        positionLat: pos.lat,
+                        positionLng: pos.lng
+                    })
+                }); //Close click function
+
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());});
+        } else {// Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());}
+    }
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+
+
+    } // END initMap() function
+
+/*
+                                         .oooo.   
+                                       .dP""Y88b  
+ooo. .oo.  .oo.    .oooo.   oo.ooooo.        ]8P' 
+`888P"Y88bP"Y88b  `P  )88b   888' `88b     .d8P'  
+ 888   888   888   .oP"888   888   888   .dP'     
+ 888   888   888  d8(  888   888   888 .oP     .o 
+o888o o888o o888o `Y888""8o  888bod8P' 8888888888 
+                             888                  
+                            o888o                 
+*/                                                  
+ 
+function initMapTwo() {
+  
+  var map2 = new google.maps.Map(document.getElementById('map2'), {
+    center: {lat: 40.5757706, lng: -74.35883439999999},
+    zoom: 10
+  }); //Close new map .
+                
+                var circle = new google.maps.Circle({
+                    map: map2,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.5757706,
+                        lng: -74.35883439999999
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 2
+                var circle = new google.maps.Circle({
+                    map: map2,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.497557799999996,
+                        lng: -74.4473483
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 3
+                var circle = new google.maps.Circle({
+                    map: map2,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.534274,
+                        lng: -74.520258
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 4
+                var circle = new google.maps.Circle({
+                    map: map2,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.585943,
+                        lng: -74.619274
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 5
+                var circle = new google.maps.Circle({
+                    map: map2,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.628732,
+                        lng: -74.410394
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                });
+                //Circle 6
+                var circle = new google.maps.Circle({
+                    map: map2,
+                    radius: 1609.34, // 10 miles in metres
+                    center: {
+                        lat: 40.474823,
+                        lng: -74.539483
+                    },
+                    strokeColor: '#009900',
+                    strokeOpacity: 0,
+                    strokeWeight: 0,
+                    fillColor: '#009900',
+                    fillOpacity: 0.7
+                }); // End Circles
+                
+  var geocoder = new google.maps.Geocoder;
+  
+  var infowindow = new google.maps.InfoWindow;
+
+    geocodeLatLng(geocoder, map2, infowindow);
+
+} // End InitMap2() function 
+
+function geocodeLatLng(geocoder, map, infowindow) {
+  
+  firebase.database().ref('userlocation').on("child_added", function(snapshot) {
+  
+  var input = (snapshot.val().positionLat + "," + snapshot.val().positionLng)
+  
+  var latlngStr = input.split(',', 2);
+  var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+  geocoder.geocode({'location': latlng}, function(results, status) {
+    
+    firebase.database().ref('address').push({
+    address: results[0].formatted_address
+    });
+
+    if (status === 'OK') {
+      if (results[0]) {
+        map.setZoom(10);
+        
+        var marker = new google.maps.Marker({
+          position: latlng,
+          map: map
+        });
+
+        firebase.database().ref('user').on("child_added", function(snapshot){
+
+        infowindow.setContent(snapshot.val().name + "<br>" + results[0].formatted_address);
+        infowindow.open(map, marker);
+        })
+
+      } else {
+        window.alert('No results found');
+      }
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
+    }
+  });
+  });
+
+} // End geocodeLatLng() function.
+
+
+  
+        $(document).ready(function() {
+
+            // var scrollorama = $.scrollorama({ blocks:'.scrollblock' });
+            
+            clock = $('.clock').FlipClock({
+                clockFace: 'HourlyCounter',
+                autoStart: false,
+                callbacks: {
+                    start: function() {
+                        $('.message').html('The clock has started!');
+                    },
+                    stop: function() {
+                        $('.message').html('The clock has stopped!');
+                    }
+                }
+            });
+            $('.clockIn').click(function(e) {
+                clock.start();
+                var stamp1 = (moment()._d);
+                $('#punchin >tbody').append("<tr><td>" + stamp1 + "</td></tr>");
+                $('#total').hide();
+            });
+            $('.clockOut').click(function(e) {
+                clock.stop();
+                var stamp2 = (moment()._d);
+                $('#punchout >tbody').append("<tr><td>" + stamp2 + "</td></tr>");
+                var totalSeconds = clock.getTime().time;
+                hours = Math.floor(totalSeconds / 3600);
+                totalSeconds %= 3600;
+                minutes = Math.floor(totalSeconds / 60);
+                seconds = totalSeconds % 60;
+                var formattedTime = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+                // var formattedTime = hours + ':' + minutes + ':' + seconds;
+                console.log(formattedTime);
+                $('#total').show().text(formattedTime);
+            });
+        });
+
+
+    </script>
+
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDA89eTHhEgKKrfeKLVVnMoHyE3u5zCZ7Y&callback=initialize">
+    </script>
+
+
+</body>
+</html>
