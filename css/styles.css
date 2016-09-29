@@ -9,7 +9,7 @@ body {
   -o-background-size:cover;
   background-position:center;
   background-repeat: none;
-  background-image:url('https://usersthink.com/wp-content/uploads/39-usersthink-stock-image.jpg');
+  background-image: url("../images/clock1.jpg");
   color:#fff;
 };
 
