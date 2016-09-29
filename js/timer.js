@@ -80,11 +80,11 @@ $(document).ready(function() {
       $('#total').show().text(formattedTime);
       clockedIn = false;
       //may need to be added to other people's code
-           		// database.ref().push({
-             //     clockIn: formattedDate1,  
-             //     clockOut: formattedDate2,
-             //     totalTime: formattedTime
-             //    });
+           		database.ref('timers').set({
+                 clockIn: formattedDate1,  
+                 clockOut: formattedDate2,
+                 totalTime: formattedTime
+                });
       } else {
         $('.message').html("You're not clocked in!");
       }
