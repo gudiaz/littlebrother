@@ -7,6 +7,7 @@ var totalTime;
 clockedIn = false;
 var formattedDate1;
 var formattedDate2;
+var formattedTime;
 
 $(document).ready(function() {
     // var scrollorama = $.scrollorama({ blocks:'.scrollblock' });
@@ -41,6 +42,11 @@ $(document).ready(function() {
       $('#punchin >tbody').append("<tr><td>" + stamp1 + "</td></tr>");
       $('#total').hide();
       clockedIn = true;
+      // database.ref().push({
+      //            clockIn: formattedDate1,  
+      //            clockOut: formattedDate2,
+      //            totalTime: formattedTime
+      //           });
       } else {
         $('.message').html("You're already clocked in!");
       }
@@ -68,17 +74,17 @@ $(document).ready(function() {
       totalSeconds %= 3600;
       minutes = Math.floor(totalSeconds / 60);
       seconds = totalSeconds % 60;
-      var formattedTime = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+      formattedTime = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
       // var formattedTime = hours + ':' + minutes + ':' + seconds;
       console.log(formattedTime);
       $('#total').show().text(formattedTime);
       clockedIn = false;
       //may need to be added to other people's code
-                // database.ref().push({
-                //  clockIn: formattedDate1,  
-                //  clockOut: formattedDate2,
-                //  totalTime: formattedTime
-                // });
+           		// database.ref().push({
+             //     clockIn: formattedDate1,  
+             //     clockOut: formattedDate2,
+             //     totalTime: formattedTime
+             //    });
       } else {
         $('.message').html("You're not clocked in!");
       }
