@@ -10,7 +10,11 @@ o888o o888o o888o `Y888""8o  888bod8P'
                             o888o            
 */                                            
 
-    function initMap() {
+    function initialize(){
+        initMap();
+        initMapTwo();
+    }
+       function initMap() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 var pos = {
