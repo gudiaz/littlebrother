@@ -11,7 +11,7 @@ var formattedTime;
 
 $(document).ready(function() {
     // var scrollorama = $.scrollorama({ blocks:'.scrollblock' });
-    
+
     clock = $('.clock').FlipClock({
       clockFace: 'HourlyCounter',
       autoStart: false,
@@ -89,4 +89,10 @@ $(document).ready(function() {
         $('.message').html("You're not clocked in!");
       }
     });
+    //function initialize(){
+    //    initMap();
+        initMapTwo();
+    //}
+    
+
 });
