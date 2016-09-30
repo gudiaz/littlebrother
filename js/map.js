@@ -27,7 +27,6 @@ function initMap() {
         navigator.geolocation.getCurrentPosition(function(position) {
             pos.lat = position.coords.latitude;
             pos.lng = position.coords.longitude;
-        };
 
             $('#submit').on('click', function() {
                 database.ref('userlocation').set({
