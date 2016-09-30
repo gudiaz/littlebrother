@@ -89,10 +89,11 @@ $(document).ready(function() {
         $('.message').html("You're not clocked in!");
       }
     });
-    //function initialize(){
-    //    initMap();
+    
+    function initialize(){
+        //initMap();
         initMapTwo();
-    //}
+    }
     
 
 });
