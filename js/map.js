@@ -28,12 +28,11 @@ function initMap() {
             pos.lat = position.coords.latitude;
             pos.lng = position.coords.longitude;
 
-            $('#submit').on('click', function() {
-                database.ref('userlocation').set({
+                database.ref('userInfo').push({
                     positionLat: pos.lat,
                     positionLng: pos.lng
-            }) 
-                }); //Close click function
+                });
+
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());});
     } else {// Browser doesn't support Geolocation
@@ -148,7 +147,8 @@ function initMapTwo() {
 } // End InitMap2() function 
 
 function geocodeLatLng(geocoder, map, infowindow) {
-  database.ref('userlocation').on("value", function(snapshot) {
+  database.ref('userInfo').on("child_added", function(snapshot) {
+    
   
   var input = (snapshot.val().positionLat + "," + snapshot.val().positionLng)
   
@@ -156,7 +156,9 @@ function geocodeLatLng(geocoder, map, infowindow) {
   var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
   geocoder.geocode({'location': latlng}, function(results, status) {
     
-    database.ref('address').set({
+    address = results[0].formatted_address;
+
+    database.ref('userInfo').push({
     address: results[0].formatted_address
     });
 
@@ -169,18 +171,10 @@ function geocodeLatLng(geocoder, map, infowindow) {
           map: map
         });
 
-        address = "";
-        name ="";
-
-        database.ref('address').on("child_added", function(snapshot){
-            address = snapshot.val();
-            console.log(address);
-        })
-
         database.ref('user').on("child_added", function(snapshot){
-            console.log(snapshot.val().name);
+            name = snapshot.val();
         
-        infowindow.setContent(snapshot.val().name + "<br>" + address );
+        infowindow.setContent(snapshot.val() + "<br>" + results[0].formatted_address);
         infowindow.open(map, marker);
         })
 

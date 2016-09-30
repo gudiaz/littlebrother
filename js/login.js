@@ -14,6 +14,7 @@ o888o `Y8bod8P' `8oooooo.  o888o o888o o888o
 var provider = new firebase.auth.FacebookAuthProvider();
 var user;
 
+
 provider.addScope('email');
 
 //Authenticate with Firebase using the Facebook provider object.
@@ -29,6 +30,11 @@ function login(){
     // The signed-in user info
     user = result.user;
     console.log(user);
+
+          // Save the User Name to Firebase
+  firebase.database().ref('user').set({
+    name: result.user.displayName
+});
 
     // Redirect to the timer page
     window.location = "../timer.html";
@@ -64,7 +70,7 @@ function logout(){
 // });
 
 //   //Retrieve the User Name from Firebase
-// firebase.database().ref('user').on("child_added", function(snapshot){
+//    firebase.database().ref('user').on("child_added", function(snapshot){
 //     console.log(snapshot.val().name);
 
 //     //redirect to the timer page

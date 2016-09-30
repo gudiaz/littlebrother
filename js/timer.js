@@ -68,7 +68,7 @@ $(document).ready(function() {
       formattedDate2 = day + '-' + month + '-' + year + ' at ' + hours2 + ':' + minutes2 + ' ' + meridiem;
       $('#punchout >tbody').append("<tr><td>" + stamp2 + "</td></tr>");
       var totalSeconds = clock.getTime().time;
-      console.log("total seconds: " + totalSeconds);
+      //console.log("total seconds: " + totalSeconds);
       
       hours = Math.floor(totalSeconds / 3600);
       totalSeconds %= 3600;
@@ -76,7 +76,7 @@ $(document).ready(function() {
       seconds = totalSeconds % 60;
       formattedTime = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
       // var formattedTime = hours + ':' + minutes + ':' + seconds;
-      console.log(formattedTime);
+      //console.log(formattedTime);
       //$('#total').show().text(formattedTime);
       clockedIn = false;
       //may need to be added to other people's code
@@ -89,6 +89,9 @@ $(document).ready(function() {
                  positionLat: pos.lat,
                  positionLng: pos.lng
                 });
+
+              database.ref('user').set({});
+
       } else {
         $('.message').html("You're not clocked in!");
       }
