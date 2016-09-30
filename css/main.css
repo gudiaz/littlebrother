@@ -19,11 +19,14 @@ html{
 	height: 100%;
 };
 
-#saying{
-	color: orange;
-}
 
 .panel-body a {
 		    word-break:break-all
 		}
 
+
+#title {
+    font-family: 'Baloo Bhai', cursive;
+    color: orange;
+    font-size: 40px;
+}

@@ -15,6 +15,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">	
 	
 	<link rel="stylesheet" type="text/css" href="./css/main.css">
+	<link href="https://fonts.googleapis.com/css?family=Baloo+Bhai" rel="stylesheet">
 
 	<!-- Style to fix the issue of text extending past panel length -->
 	</head>
@@ -22,18 +23,21 @@
 <!-- Main Bootstrap Search -->
 <div class="container">
 	<div class="row" id="saying">
-		<h3 class="text-center"> Lost Time is NEVER found again!! So TRACK it!</h3> <!--We can have the saying part as ajax call. I'm gonna work on it and fount an api for codes so, a random dispaly quote appear on screen each time we open the page.-->
+	<button class="btn btn-warning" id="quote">Every Day a QUOTE!</button>
+		<p id="quote-title"></p> <br>
+		<p id="quote-content"></p> <br>
+		<p id="quote-source"></p>
+		<h3 class="text-center" id="title"> Lost Time is NEVER Found Again!! So TRACK it!</h3> 
+		<br><!--We can have the saying part as ajax call. I'm gonna work on it and fount an api for codes so, a random dispaly quote appear on screen each time we open the page.-->
 	</div>
 	
 	<div class="row">
-		<div class="col-lg-3 col-xs-12 text-center">
-			<img src="images/eyes.gif" alt= "image" class="img-thumbnail" height="180" width="300">
+		<div class="col-lg-12 col-xs-12 text-center">
+			<img src="images/eyes.gif" alt= "image" class="img-thumbnail" height="300" width="500">
 		</div>
-		<div class="col-lg-1 col-xs-12"></div>
-		<div class="col-lg-4 col-xs-12">
+		<div class="col-lg-12 col-xs-12">
 			<h1 class="text-center">I C <span class="glyphicon glyphicon-eye-open"></span> U</h1> 
 		</div>
-		<div class="col-lg-4 col-xs-12"></div>
 	</div>
 	
 
@@ -41,7 +45,29 @@
 	<center><button id="login" class="btn btn-primary btn-default"><span><img src="images/facebook-icon.svg" alt= "image" class="img-thumbnail" height="30" width="30"></span> Login</button></center>
 	<div id="experiment"></div>
 </div>
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script type="text/javascript">
+$('#quote').on('click', function(e) {
+    e.preventDefault();
+    $.ajax( {
+      url: 'https://crossorigin.me/https://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1',
+      success: function(data) {
+        var post = data.shift(); // The data is an array of posts. Grab the first one.
+        $('#quote-title').text(post.title);
+        $('#quote-content').html(post.content);
 
+        // If the Source is available, use it. Otherwise hide it.
+        if (typeof post.custom_meta !== 'undefined' && typeof post.custom_meta.Source !== 'undefined') {
+          $('#quote-source').html('Source:' + post.custom_meta.Source);
+        } else {
+          $('#quote-source').text('');
+        }
+      },
+      cache: false
+    });
+  });
+
+</script>
 
 <script src="https://code.jquery.com/jquery.js" type="text/javascript" ></script>
 <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
