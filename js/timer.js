@@ -77,17 +77,23 @@ $(document).ready(function() {
       formattedTime = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
       // var formattedTime = hours + ':' + minutes + ':' + seconds;
       console.log(formattedTime);
-      $('#total').show().text(formattedTime);
+      //$('#total').show().text(formattedTime);
       clockedIn = false;
       //may need to be added to other people's code
-           		database.ref('timers').set({
+           		database.ref('userInfo').set({
+                 name: name,
+                 address: address,
                  clockIn: formattedDate1,  
                  clockOut: formattedDate2,
                  totalTime: formattedTime
+                 positionLat: pos.lat,
+                 positionLng: pos.lng
                 });
       } else {
         $('.message').html("You're not clocked in!");
       }
     });
+    
+    
 
 });
