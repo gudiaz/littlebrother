@@ -85,7 +85,7 @@ $(document).ready(function() {
                  address: address,
                  clockIn: formattedDate1,  
                  clockOut: formattedDate2,
-                 totalTime: formattedTime
+                 totalTime: formattedTime,
                  positionLat: pos.lat,
                  positionLng: pos.lng
                 });
